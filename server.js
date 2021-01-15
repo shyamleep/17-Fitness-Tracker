@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
 const logger = require("morgan");
-const db = "workouts_db";
+const db = "Workouts";
 const PORT = process.env.PORT || 3000;
 
 app.use(express.urlencoded({ extended: true }));
