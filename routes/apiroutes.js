@@ -11,8 +11,26 @@ router.post("/api/workouts", (req, res) => {
     })
 });
 
+router.get('/api/workouts', (req, res) => {
+    Workouts.aggregate([
+      {
+        $addFields: {
+          totalDuration: {
+            $sum: '$exercises.duration',
+          },
+        },
+      },
+    ])
+      .then((dbWorkouts) => {
+        res.json(dbWorkouts);
+      })
+      .catch((err) => {
+        res.json(err);
+      });
+  });
+
 // add a new exercises to old workout plan
-router.put("api/workouts/:id", (req,res) => {
+router.put("/api/workouts/:id", (req,res) => {
     Workouts.findByIdAndUpdate(req.params.id, 
         {$push: {exercises: req.body}},
         {new: true, runValidators: true})
